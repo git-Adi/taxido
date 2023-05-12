@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v2.3.1/mapbox-gl.css' rel='stylesheet' />
+  <title>Driver Login</title>
+  <link rel="stylesheet" href="/assets/driver_login.css">
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="logo.png" alt="Company Logo">
+    </div>
+    <nav>
+      <ul>
+        <li><a href="#">About Us</a></li>
+        <li><a href="#">Contact Us</a></li>
+        <li><a href="/driver_signup">Sign Up</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <h1>Driver Login</h1>
+    <form action="/driver_login" method="post">
+      <label for="driver-id">Driver ID</label>
+      <input type="text" id="driver-id" name="driver_id">
+
+      <label for="driver-email">Email Address</label>
+      <input type="email" id="driver-email" name="driver_email">
+
+      <label for="driver-password">Password</label>
+      <input type="password" id="driver-password" name="driver_password">
+      <input type="hidden" name="l1" id="l1">
+      <input type="hidden" name="l1" id="l2">
+      <input type="submit" value="Log In">
+    </form>
+  </main>
+  <script>
+    mapboxgl.accessToken = 'pk.eyJ1IjoiYWRpdHlhNTEwIiwiYSI6ImNsZmpsbmMxbzAyMmMzeW10aGNveTY2ZWkifQ.o0pfNFXREpMQTLa12dQ7Kw';
+    navigator.geolocation.getCurrentPosition(function(position) {
+      var currentLocation = [position.coords.longitude, position.coords.latitude];
+      // console.log(position.coords.longitude)
+      // console.log(position.coords.latitude)
+      console.log("hello")
+      // var map = new mapboxgl.Map({
+      //   container: 'map',
+      //   style: 'mapbox://styles/mapbox/streets-v11',
+      //   center: currentLocation,
+      //   zoom: 12
+      // });
+      
+      // // Add current location marker
+      // var marker = new mapboxgl.Marker()
+      //   .setLngLat(currentLocation)
+      //   .addTo(map);
+      var req = new XMLHttpRequest();
+      req.open('GET','/driver_login',true)
+      req.onload=function(){
+        const l1 = document.getElementById('l1');
+        const l2 = document.getElementById('l2');
+        l1.value = currentLocation[1];
+        l2.value = currentLocation[0];
+        console.log(l1.value,l2.value);
+
+      };
+      req.send();
+  });
+
+  </script>
+  <!-- <form action="/driver_login" method="post">
+    <input type="hidden" name="l1" id="l1">
+    <input type="hidden" name="l1" id="l2">
+  </form> -->
+
+</body>
+</html>
